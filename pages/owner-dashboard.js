@@ -30,7 +30,7 @@ export default function CreatorDashboard() {
   function verifyAccount(selectedAddress) {
     console.log(selectedAddress?.toUpperCase() !== marketOwnerAddr?.toUpperCase(), selectedAddress)
     if (selectedAddress?.toUpperCase() !== marketOwnerAddr?.toUpperCase()) {
-      Router.push('/');
+      // Router.push('/');
     }
   }
 
