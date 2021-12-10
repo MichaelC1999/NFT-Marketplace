@@ -6,10 +6,11 @@ const marketOwnerAddr = process.env.marketOwnerAddr
 
 
 function Marketplace({ Component, pageProps }) {
-
   const [connectedAddr, setConnectAddr] = useState('')
   useEffect(() => {
+    console.log('window', window.ethereum)
     window.ethereum.on('accountsChanged', function (accounts) {
+      console.log('change')
       connection(accounts[0]);
     })
     connection(window.ethereum.selectedAddress);
@@ -23,7 +24,7 @@ function Marketplace({ Component, pageProps }) {
     }
   }
   let dashboard = ``;
-  console.log(connectedAddr, connectedAddr && connectedAddr.length > 0, window.ethereum)
+  console.log(connectedAddr, connectedAddr && connectedAddr.length > 0)
   if (connectedAddr && connectedAddr.length > 0) {
     dashboard = (<Link href="/NFT-Marketplace/owner-dashboard">
       <a className="mr-6 text-pink-500">
