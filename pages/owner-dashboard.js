@@ -17,11 +17,11 @@ export default function CreatorDashboard() {
   const [contractBalance, setContractBalance] = useState();
   const [marketData, setMarketData] = useState({transactionVolume: "", itemsCreated: 0, itemsSold: 0});
   useEffect(async () => {
-    verifyAccount();
-    getContractBalance();
-    pullMarketData();
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
+    verifyAccount(connection.selectedAddress);
+    getContractBalance();
+    pullMarketData();
     connection.on('accountsChanged', function (accounts) {
       verifyAccount(accounts[0]);
     })
