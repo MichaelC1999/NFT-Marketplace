@@ -16,7 +16,7 @@ import NFT from '../abi/NFT.json'
 export default function CreatorDashboard() {
   const [contractBalance, setContractBalance] = useState();
   const [marketData, setMarketData] = useState({transactionVolume: "", itemsCreated: 0, itemsSold: 0});
-  useEffect(() => {
+  useEffect(async () => {
     verifyAccount();
     getContractBalance();
     pullMarketData();
