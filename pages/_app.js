@@ -9,7 +9,7 @@ const marketOwnerAddr = process.env.marketOwnerAddr
 
 function Marketplace({ Component, pageProps }) {
   const [connectedAddr, setConnectAddr] = useState('')
-  useEffect(() => {
+  useEffect(async () => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     console.log('window', window.ethereum, connection)
