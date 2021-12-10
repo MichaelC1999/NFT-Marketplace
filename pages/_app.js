@@ -1,6 +1,8 @@
 import '../styles/globals.css'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Web3Modal from "web3modal"
+
 
 const marketOwnerAddr = process.env.marketOwnerAddr
 
@@ -8,7 +10,9 @@ const marketOwnerAddr = process.env.marketOwnerAddr
 function Marketplace({ Component, pageProps }) {
   const [connectedAddr, setConnectAddr] = useState('')
   useEffect(() => {
-    console.log('window', window.ethereum)
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    console.log('window', window.ethereum, connection)
     window.ethereum.on('accountsChanged', function (accounts) {
       console.log('change')
       connection(accounts[0]);
