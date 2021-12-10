@@ -12,16 +12,10 @@ function Marketplace({ Component, pageProps }) {
   useEffect(async () => {
     const web3Modal = new Web3Modal();
     const connect = await web3Modal.connect();
-    console.log('window', window.ethereum, connect)
     connect.on('accountsChanged',function (accounts) {
-      console.log('change')
       connection(accounts[0]);
-    })
-    // window.ethereum.on('accountsChanged', function (accounts) {
-    //   console.log('change')
-    //   connection(accounts[0]);
-    // })
-    connection(window.ethereum.selectedAddress);
+    });
+    connection(connect.selectedAddress);
   }, []);
 
   async function connection(selAddr) {

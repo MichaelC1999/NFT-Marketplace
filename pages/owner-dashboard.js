@@ -20,13 +20,15 @@ export default function CreatorDashboard() {
     verifyAccount();
     getContractBalance();
     pullMarketData();
-    window.ethereum.on('accountsChanged', function (accounts) {
-      verifyAccount();
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    connection.on('accountsChanged', function (accounts) {
+      verifyAccount(accounts[0]);
     })
   }, [])
 
-  function verifyAccount() {
-    if (window.ethereum.selectedAddress?.toUpperCase() !== marketOwnerAddr?.toUpperCase()) {
+  function verifyAccount(selectedAddress) {
+    if (selectedAddress?.toUpperCase() !== marketOwnerAddr?.toUpperCase()) {
       Router.push('/');
     }
   }
