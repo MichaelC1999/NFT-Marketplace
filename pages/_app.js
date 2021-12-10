@@ -11,12 +11,16 @@ function Marketplace({ Component, pageProps }) {
   const [connectedAddr, setConnectAddr] = useState('')
   useEffect(async () => {
     const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    console.log('window', window.ethereum, connection)
-    window.ethereum.on('accountsChanged', function (accounts) {
+    const connect = await web3Modal.connect();
+    console.log('window', window.ethereum, connect)
+    connect.on('accountsChanged',function (accounts) {
       console.log('change')
       connection(accounts[0]);
     })
+    // window.ethereum.on('accountsChanged', function (accounts) {
+    //   console.log('change')
+    //   connection(accounts[0]);
+    // })
     connection(window.ethereum.selectedAddress);
   }, []);
 
@@ -28,7 +32,7 @@ function Marketplace({ Component, pageProps }) {
     }
   }
   let dashboard = ``;
-  console.log(connectedAddr, connectedAddr && connectedAddr.length > 0)
+  console.log('o', connectedAddr, connectedAddr && connectedAddr.length > 0)
   if (connectedAddr && connectedAddr.length > 0) {
     dashboard = (<Link href="/NFT-Marketplace/owner-dashboard">
       <a className="mr-6 text-pink-500">
