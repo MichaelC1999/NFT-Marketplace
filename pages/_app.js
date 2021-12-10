@@ -3,12 +3,10 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Web3Modal from "web3modal"
 
-
-const marketOwnerAddr = process.env.marketOwnerAddr
-
+const marketOwnerAddr = process.env.marketOwnerAddr;
 
 function Marketplace({ Component, pageProps }) {
-  const [connectedAddr, setConnectAddr] = useState('')
+  const [connectedAddr, setConnectAddr] = useState('');
   useEffect(async () => {
     const web3Modal = new Web3Modal();
     const connect = await web3Modal.connect();
@@ -20,13 +18,12 @@ function Marketplace({ Component, pageProps }) {
 
   async function connection(selAddr) {
     if (selAddr?.toUpperCase() === marketOwnerAddr?.toUpperCase()) {
-      setConnectAddr(selAddr)
+      setConnectAddr(selAddr);
     } else {
-      setConnectAddr("")
+      setConnectAddr("");
     }
   }
   let dashboard = ``;
-  console.log('o', connectedAddr, connectedAddr && connectedAddr.length > 0)
   if (connectedAddr && connectedAddr.length > 0) {
     dashboard = (<Link href="/NFT-Marketplace/owner-dashboard">
       <a className="mr-6 text-pink-500">
