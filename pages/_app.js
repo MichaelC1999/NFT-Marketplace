@@ -23,8 +23,9 @@ function Marketplace({ Component, pageProps }) {
     }
   }
   let dashboard = ``;
+  console.log(connectedAddr, connectedAddr && connectedAddr.length > 0)
   if (connectedAddr && connectedAddr.length > 0) {
-    dashboard = (<Link href="/owner-dashboard">
+    dashboard = (<Link href="/NFT-Marketplace/owner-dashboard">
       <a className="mr-6 text-pink-500">
         Owner Dashboard
       </a>
