@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Web3Modal from "web3modal"
@@ -34,6 +35,9 @@ function Marketplace({ Component, pageProps }) {
 
   return (
     <div>
+      <head>
+        <title>En Eff Tee Marketplace</title>
+      </head>
       <nav className="border-b p-6">
         <p className="text-4xl font-bold">EN EFF TEE Marketplace</p>
         <div className="flex mt-4">
