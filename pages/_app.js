@@ -3,21 +3,30 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Web3Modal from "web3modal"
+import { ethers } from 'ethers'
+
 
 const marketOwnerAddr = process.env.marketOwnerAddr;
 
 function Marketplace({ Component, pageProps }) {
   const [connectedAddr, setConnectAddr] = useState('');
+  const [currChainID, setCurrChainID] = useState('')
   useEffect(async () => {
     const web3Modal = new Web3Modal();
     const connect = await web3Modal.connect();
     connect.on('accountsChanged',function (accounts) {
-      connection(accounts[0]);
+      connection(accounts[0], connect);
     });
-    connection(connect.selectedAddress);
+    connect.on('chainChanged',function (accounts) {
+      connection(accounts[0], connect);
+    });
+    connection(connect.selectedAddress, connect);
   }, []);
 
-  async function connection(selAddr) {
+  async function connection(selAddr, conn) {
+    const provider = new ethers.providers.Web3Provider(conn)
+    const chainID = (await provider._networkPromise).chainId.toString();
+    setCurrChainID(chainID)
     if (selAddr?.toUpperCase() === marketOwnerAddr?.toUpperCase()) {
       setConnectAddr(selAddr);
     } else {
@@ -25,12 +34,21 @@ function Marketplace({ Component, pageProps }) {
     }
   }
   let dashboard = ``;
-  if (connectedAddr && connectedAddr.length > 0) {
+  if (connectedAddr?.length > 0) {
     dashboard = (<Link href="/NFT-Marketplace/owner-dashboard">
       <a className="mr-6 text-pink-500">
         Owner Dashboard
       </a>
     </Link>);
+  }
+
+  let comp = <div className="lds-ellipsis animation-white"><div></div><div></div><div></div><div></div></div>
+  if (currChainID === '4') {
+    comp = <Component {...pageProps} />
+  } else {
+    comp = (<div style={{textAlign: "center", backgroundColor: "black", paddingTop: "12px", minHeight: "90vh"}}>
+    <h1 className="text-white" style={{fontSize: "33px", width: "100%"}}>Please connect your Web3 wallet to the Rinkeby Test Network</h1>
+    <div className="lds-ellipsis animation-white"><div></div><div></div><div></div><div></div></div></div>)
   }
 
   return (
@@ -64,7 +82,7 @@ function Marketplace({ Component, pageProps }) {
           {dashboard}
         </div>
       </nav>
-      <Component {...pageProps} />
+      {comp}
     </div>
   )
 }

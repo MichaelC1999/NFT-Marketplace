@@ -77,6 +77,7 @@ export default function Home() {
     setPurchaseTx(tx.transactionHash);
     setPurchaseImg(NFT.image);
   }
+  if (loadingState !== 'loaded') return <div style={{textAlign: "center"}}><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
   if (loadingState === 'loaded' && !NFTs.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   if (purchaseTx) {
     return (
