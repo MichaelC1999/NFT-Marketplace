@@ -62,20 +62,25 @@ export default function Home() {
   }
 
   async function buyNFT(NFT) {
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    setPurchaseTx('processing');
-    const contract = new ethers.Contract(NFTmarketaddress, Market.abi, signer);
-    const price = ethers.utils.parseUnits(NFT.price.toString(), 'ether');
-    const transaction = await contract.createMarketSale(NFTaddress, NFT.itemID, {
-      value: price
-    });
-    const tx = await transaction.wait();
-    //Transaction hash is tx.transactionHash
-    setPurchaseTx(tx.transactionHash);
-    setPurchaseImg(NFT.image);
+    try {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+      setPurchaseTx('processing');
+      const contract = new ethers.Contract(NFTmarketaddress, Market.abi, signer);
+      const price = ethers.utils.parseUnits(NFT.price.toString(), 'ether');
+      const transaction = await contract.createMarketSale(NFTaddress, NFT.itemID, {
+        value: price
+      });
+      const tx = await transaction.wait();
+      //Transaction hash is tx.transactionHash
+      setPurchaseTx(tx.transactionHash);
+      setPurchaseImg(NFT.image);
+    } catch (err) {
+      console.log(err)
+      setPurchaseTx("")
+    }
   }
   if (loadingState !== 'loaded') return <div style={{textAlign: "center"}}><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
   if (loadingState === 'loaded' && !NFTs.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)

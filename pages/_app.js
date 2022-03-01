@@ -26,7 +26,7 @@ function Marketplace({ Component, pageProps }) {
   async function connection(selAddr, conn) {
     const provider = new ethers.providers.Web3Provider(conn)
     const chainID = (await provider._networkPromise).chainId.toString();
-    setCurrChainID(chainID)
+    if (chainID !== currChainID) setCurrChainID(chainID)
     if (selAddr?.toUpperCase() === marketOwnerAddr?.toUpperCase()) {
       setConnectAddr(selAddr);
     } else {
